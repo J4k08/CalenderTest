@@ -1,38 +1,60 @@
 /**
  * Created by jakobhaglof on 2017-10-02.
  */
-var app = angular.module('app', ['ngRoute']);
 
-    var apiKey= {
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
-        client_id: "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com",
-        scopes: "https://www.googleapis.com/auth/calender.readonly"
-    };
-    //var discovery_Docs = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-    //var client_Id = "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com";
-    //var scopes = "https://  www.googleapis.com/auth/calender.readonly";
+// Array of API discovery doc URLs for APIs used by the quickstart
+// Authorization scopes required by the API; multiple scopes can be
+// included, separated by spaces.
+    var CLIENT_ID = '<CLIENT_ID';
 
-    authorizeButton = document.getElementById("auhorize-button");
-    signoutButton = document.getElementById("signout-button");
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+    var authorizeButton = document.getElementById('authorize-button');
+    var signoutButton = document.getElementById('signout-button');
+
+    /**
+     *  On load, called to load the auth2 library and API client library.
+     */
     function handleClientLoad() {
+        console.log("HandleCLientLoad");
         gapi.load('client:auth2', initClient);
     }
 
+    /**
+     *  Initializes the API client library and sets up sign-in state
+     *  listeners.
+     */
     function initClient() {
-        console.log("init");
-        gapi.client.init(apiKey).then(function() {
-
+        console.log("initClient");
+        gapi.client.init(
+            {
+                discoveryDocs: DISCOVERY_DOCS,
+                clientId: CLIENT_ID,
+                scope: SCOPES
+            }
+        ).then(function () {
+            // Listen for sign-in state changes.
             console.log("init.then");
             gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-            updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+
+            // Handle the initial sign-in state.
+            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
             authorizeButton.onclick = handleAuthClick;
             signoutButton.onclick = handleSignoutClick;
         });
     }
 
-    function updateSignInStatus(isSignedIn) {
-        console.log("updateSigninStatus");
+    /**
+     *  Called when the signed in status changes, to update the UI
+     *  appropriately. After a sign-in, the API is called.
+     */
+    function updateSigninStatus(isSignedIn) {
+        console.log("updateSignInStatus");
         if (isSignedIn) {
             authorizeButton.style.display = 'none';
             signoutButton.style.display = 'block';
@@ -43,20 +65,41 @@ var app = angular.module('app', ['ngRoute']);
         }
     }
 
+    /**
+     *  Sign in the user upon button click.
+     */
     function handleAuthClick(event) {
         gapi.auth2.getAuthInstance().signIn();
     }
 
-    function appendPre (message) {
-        pre = document.getElementById('content');
-        textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
-    }
-
+    /**
+     *  Sign out the user upon button click.
+     */
     function handleSignoutClick(event) {
         gapi.auth2.getAuthInstance().signOut();
     }
 
+    /**
+     * Append a pre element to the body containing the given message
+     * as its text node. Used to display the results of the API call.
+     *
+     * @param {string} message Text to be placed in pre element.
+     */
+    function appendPre(message) {
+        if(message === null) {
+            window.onload();
+        } else {
+            var pre = document.getElementById('content');
+            var textContent = document.createTextNode(message + '\n');
+            pre.appendChild(textContent);
+        }
+    }
+
+    /**
+     * Print the summary and start datetime/date of the next ten events in
+     * the authorized user's calendar. If no events are found an
+     * appropriate message is printed.
+     */
     function listUpcomingEvents() {
         gapi.client.calendar.events.list({
             'calendarId': 'primary',
@@ -65,10 +108,9 @@ var app = angular.module('app', ['ngRoute']);
             'singleEvents': true,
             'maxResults': 10,
             'orderBy': 'startTime'
-        }).then(function(response) {
-
-            console.log(response.result.items);
+        }).then(function (response) {
             var events = response.result.items;
+            console.log(events);
             appendPre('Upcoming events:');
 
             if (events.length > 0) {
@@ -85,7 +127,6 @@ var app = angular.module('app', ['ngRoute']);
             }
         });
     }
-    handleClientLoad();
     /*
      1: Skriv om gapi.js till angular,
      2: Skapa node server - klar
@@ -93,5 +134,3 @@ var app = angular.module('app', ['ngRoute']);
      4: Skapa timer som hämtar hem från googleApi varje minut,
      5: Skapa en enklare frontend och visa events
      */
-
-    //$scope.handleClientLoad();

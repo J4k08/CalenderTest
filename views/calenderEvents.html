@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>calenderTest</title>
+    <meta charset='utf-8' />
+</head>
+<body>
+<p>Google Calender Events: </p>
+
+<!--Add buttons to initiate auth sequence and sign out-->
+<button id="authorize-button" style="display: none;">Authorize</button>
+<button id="signout-button" style="display: none;">Sign Out</button>
+
+<pre id="content"></pre>
+<script async defer src="https://apis.google.com/js/api.js"
+onload="this.onload=function(){};handleClientLoad()"
+onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+<script src="../assets/js/gapi.js"></script>
+</body>
+</html
