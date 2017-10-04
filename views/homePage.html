@@ -2,12 +2,16 @@
     <p>Google Calendar API Quickstart</p>
     <p>Homepage</p>
 
+    <div id="gSignInWrapper" >
+        <span class="label">Sign in with: </span>
+        <div id="customBtn" class="customGPlusSignIn">
+            <span class="icon"></span>
+            <span class="buttonText">Google</span>
+        </div>
+    </div>
+    <div id="name"></div>
+
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize-button" style="display: none;">Authorize</button>
     <button id="signout-button" style="display: none;">Sign Out</button>
     <pre id="content"></pre>
-
-    <script
-    onload="this.onload=function(){};handleClientLoad()"
-    onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>

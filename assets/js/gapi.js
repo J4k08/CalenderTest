@@ -3,94 +3,61 @@
  */
 var app = angular.module('app', ['ngRoute']);
 
-//var gcal = require('google-calendar');
-//var google_calendar = new gcal.GoogleCalendar(accessToken);
-
-app.config(function($routeProvider) {
-    $routeProvider.when('/', {
-        controller: 'appController',
-        templateUrl: 'views/homePage.html'
-    }).when('/quickstart', {
-        templateUrl: 'views/quickstart.html'
-    });
-});
-
-app.controller('appController', function($scope) {
-
     var apiKey= {
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
         client_id: "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com",
-        scopes: "https://  www.googleapis.com/auth/calender.readonly"
+        scopes: "https://www.googleapis.com/auth/calender.readonly"
     };
-    var discovery_Docs = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-    var client_Id = "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com";
-    var scopes = "https://  www.googleapis.com/auth/calender.readonly";
+    //var discovery_Docs = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+    //var client_Id = "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com";
+    //var scopes = "https://  www.googleapis.com/auth/calender.readonly";
 
     authorizeButton = document.getElementById("auhorize-button");
     signoutButton = document.getElementById("signout-button");
 
-    $scope.handleClientLoad = function() {
-        gapi.load('client:auth2', $scope.initClient);
-    };
+    function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+    }
 
-    $scope.initClient = function() {
+    function initClient() {
         console.log("init");
         gapi.client.init(apiKey).then(function() {
-        }).then(function() {
+
             console.log("init.then");
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
             updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-            authorizeButton.onclick = $scope.handleAuthClick;
-            signoutButton.onclick = $scope.handleSignoutClick;
+            authorizeButton.onclick = handleAuthClick;
+            signoutButton.onclick = handleSignoutClick;
         });
-    };
-
-        /*gapi.client.init({
-            discoveryDocs: discovery_Docs,
-            clientId: client_Id,
-            scope: scopes
-        }).then(function () {
-            console.log();
-
-            console.log("init.then");
-
-            // Listen for sign-in state changes.
-            gapi.auth2.getAuthInstance().isSignedIn.listen($scope.updateSignInStatus);
-
-            // Handle the initial sign-in state.
-            updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-            authorizeButton.onclick = $scope.handleAuthClick;
-            signoutButton.onclick = $scope.handleSignoutClick;
-        });*/
-
+    }
 
     function updateSignInStatus(isSignedIn) {
-        console.log(isSignedIn);
+        console.log("updateSigninStatus");
         if (isSignedIn) {
             authorizeButton.style.display = 'none';
             signoutButton.style.display = 'block';
-            $scope.listUpcomingEvents();
+            listUpcomingEvents();
         } else {
             authorizeButton.style.display = 'block';
             signoutButton.style.display = 'none';
         }
-    };
+    }
 
-    $scope.handleAuthClick = function(event) {
+    function handleAuthClick(event) {
         gapi.auth2.getAuthInstance().signIn();
-    };
+    }
 
-    $scope.appendPre = function(message) {
+    function appendPre (message) {
         pre = document.getElementById('content');
         textContent = document.createTextNode(message + '\n');
         pre.appendChild(textContent);
-    };
+    }
 
-    $scope.handleSignoutClick = function(event) {
+    function handleSignoutClick(event) {
         gapi.auth2.getAuthInstance().signOut();
-    };
+    }
 
-    $scope.listUpcomingEvents = function() {
+    function listUpcomingEvents() {
         gapi.client.calendar.events.list({
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
@@ -117,18 +84,14 @@ app.controller('appController', function($scope) {
                 appendPre('No upcoming events found.');
             }
         });
-
-    };
-
-    $scope.handleClientLoad();
-
+    }
+    handleClientLoad();
     /*
-     1: Skriv om googleApi till angular,
-     2: Skapa node server,
+     1: Skriv om gapi.js till angular,
+     2: Skapa node server - klar
      3: Kör googleApi när en homepage visas,
      4: Skapa timer som hämtar hem från googleApi varje minut,
      5: Skapa en enklare frontend och visa events
      */
 
     //$scope.handleClientLoad();
-});
