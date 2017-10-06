@@ -12,3 +12,8 @@
     outline: none;
     color: white !important;
 }
+
+#eventFetcher-button {
+    font-size: 12px;
+    font-weight: normal;
+}

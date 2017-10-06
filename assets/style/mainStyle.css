@@ -1,10 +1,9 @@
 .mainPageHeader {
 
+    color: white !important;
     font-size: 30px !important;
-    text-align: center !important;
-}
-.mainPagenNvigation{
-    text-align: center;
+    text-align: center !important
+
 }
 .mainpagemain {
     background-color: #4caf50
@@ -12,7 +11,28 @@
 .mainpagefooter {
     text-align: center !important;
 }
-.mainPageEventData p {
-    font-weight: bold;
-    color:white !important;
+.indexUiClock {
+    padding-top: 10px;
+    margin-left:1%;
 }
+.indexDate {
+    font-size: 12px;
+    margin-left: 1%;
+}
+.indexHeaderButtons {
+    text-align: end !important;
+}
+
+.listdemoBasicUsage md-divider {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.mainPageEventContent {
+    margin: 10px;
+}
+
+#mainPageEvent {
+    border-top: solid;
+    border-color: #a5d6a7;
+}
+
