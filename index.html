@@ -8,30 +8,38 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <link href="assets/style/buttonDesign.css" rel="stylesheet">
     <link href="assets/style/mainStyle.css" rel="stylesheet">
+    <link href="bower_components/angular-ui-clock/dist/angular-clock.css">
 </head>
 <body>
 
-<md-toolbar class="primary">
+<md-toolbar md-colors="{'background': 'default-accent'}" class="primary">
     <header class="mainPageHeader">RoomDisplay Prototype</header>
-    <div class="mainPagenNvigation">
-        <span>Homepage</span>
+    <div class="indexHeaderButtons">
+        <span>
+            <md-button class="md-primary md-raised" id="authorize-button"  ng-click="handleAuthClick()">Authorize</md-button>
+            <md-button class="md-primary md-raised" id="signout-button"  ng-click="handleSignoutClick()">Sign Out</md-button>
+        </span>
     </div>
 </md-toolbar>
 
 
-<div id="main">
-    <div ng-view></div>
+<div flex style="height: -webkit-calc(100% - 76px)" id="main">
+    <div md-colors="{'background': 'default-primary-hue-1'}" ng-view flex layout-fill style="height: 100%" ng-view></div>
 </div>
 
 <div>
     <footer>
         <md-toolbar class="md-primary">
-            <p class="mainPageFooter">14:25pm</p>
+            <div class="indexUiClock">
+            <ds-widget-clock data-show-digital digital-format="'HH:mm'"></ds-widget-clock>
+            </div>
+            <p class="indexDate">October 6, 2017</p>
         </md-toolbar>
     </footer>
 </div>
 
 <script src="node_modules/angular/angular.min.js"></script>
+<script src="bower_components/angular-ui-clock/angular-clock.js"></script>
 <script src="node_modules/angular-material/angular-material.min.js"></script>
 <script src="node_modules/angular-aria/angular-aria.min.js"></script>
 <script src="node_modules/angular-animate/angular-animate.min.js"></script>

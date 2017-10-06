@@ -2,7 +2,7 @@
  * Created by jakobhaglof on 2017-10-02.
  */
 
-angular.module('app', ['ngMaterial', 'ngRoute'])
+angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
 
     .config(function($routeProvider) {
 
@@ -16,19 +16,18 @@ angular.module('app', ['ngMaterial', 'ngRoute'])
 
         $mdThemingProvider.theme('default')
             .primaryPalette('green', {
-                'default': '600',
-                'hue-1': '300',
-                'hue-2': '100'
+                'default': '400',
+                'hue-1': '200',
+                'hue-2': '600'
             })
-            .accentPalette('light-green', {
-                'default': '900'
+            .accentPalette('green', {
+                'default': '500'
             });
     })
     .controller('gapiController', function($scope, $document) {
 
-
-
         $scope.fetchedEvents = [];
+        $scope.tempEvents = [];
     "use strict";
     var apiKey= {
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
@@ -41,6 +40,8 @@ angular.module('app', ['ngMaterial', 'ngRoute'])
     console.log($document);
     var authorizeButton = angular.element(document.querySelector("#authorize-button"));
     var signoutButton = angular.element(document.querySelector("#signout-button"));
+    var eventFetchedButton = angular.element(document.querySelector("#event-fetcher-button"));
+
     console.log("auth");
     gapi.load('client:auth2', initClient);
 
@@ -58,12 +59,12 @@ angular.module('app', ['ngMaterial', 'ngRoute'])
     function updateSignInStatus(isSignedIn) {
         console.log("updateSigninStatus");
         if (isSignedIn) {
-            authorizeButton.css('display', 'none');
-            signoutButton.css('display', 'block');
-            listUpcomingEvents();
+            //authorizeButton.css('display', 'none');
+            //signoutButton.css('display', 'block');
+            //listUpcomingEvents();
         } else {
-            authorizeButton.css('display', 'block');
-            signoutButton.css('display', 'none');
+            //authorizeButton.css('display', 'block');
+            //signoutButton.css('display', 'none');
         }
     }
 
@@ -134,12 +135,26 @@ angular.module('app', ['ngMaterial', 'ngRoute'])
         }
         console.log("StartIso: " + startIso);
         console.log("EndIso: " + endIso);
+    };
+
+    $scope.getCalEvents = function() {
+
+        if($scope.fetchedEvents.length === 0) {
+            listUpcomingEvents();
+            $scope.tempEvents = $scope.fetchedEvents;
+
+        } else if ($scope.fetchedEvents.length > $scope.tempEvents.length) {
+            listUpcomingEvents();
+
+        } else {
+            console.log("No new events");
+        }
     }
 });
     /*
-     1: Skriv om gapi.js till angular,
-     2: Skapa node server - klar
-     3: Kör googleApi när en homepage visas,
+     1: Skriv om gapi.js till angular                           [ Check ]
+     2: Skapa node server - klar                                [ Check ]
+     3: Kör googleApi när en homepage visas,                    [ Check ]
      4: Skapa timer som hämtar hem från googleApi varje minut,
-     5: Skapa en enklare frontend och visa events
+     5: Skapa en enklare frontend och visa events               [ Check ]
      */
