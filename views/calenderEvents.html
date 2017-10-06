@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>calenderTest</title>
-    <meta charset='utf-8' />
-</head>
-<body>
-<p>Google Calender Events: </p>
+<div ng-app="app">
 
-<!--Add buttons to initiate auth sequence and sign out-->
-<button id="authorize-button" style="display: none;">Authorize</button>
-<button id="signout-button" style="display: none;">Sign Out</button>
+    <div id=mainPageMain>
+        <md-content md-colors="{'background': 'default-primary-hue-1'}">
+            <div>
+                <div layout="row">
+                    <div flex>
+                        <div class="mainPageEventData" layout="column">
+                            <ul ng-repeat="event in fetchedEvents">
+                           <span>
+                            <li>
+                                <p>{{event.summary}}</p>
+                                <p>Name: {{event.creator.displayName}}</p>
+                                <p>Start: {{event.start.startIso}}</p>
+                                <p>End: {{event.end.endIso}}</p>
+                            </li>
+                           </span>
+                            </ul>
+                        </div>
+                            <div>
+                                <span>
+                                    <md-button class="md-primary md-raised" id="authorize-button"  ng-click="handleAuthClick()">Authorize</md-button>
+                                    <md-button class="md-primary md-raised" id="signout-button"  ng-click="handleSignoutClick()">Sign Out</md-button>
+                                </span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
 
-<pre id="content"></pre>
-<script async defer src="https://apis.google.com/js/api.js"
-onload="this.onload=function(){};handleClientLoad()"
-onreadystatechange="if (this.readyState === 'complete') this.onload()">
-</script>
-
-<script src="../assets/js/gapi.js"></script>
-</body>
-</html
+</div>

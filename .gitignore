@@ -2,5 +2,5 @@
 .idea
 package-lock.json
 node_modules
-bower_components
 client_id.json
+client_secret.json

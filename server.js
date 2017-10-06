@@ -9,7 +9,7 @@ app.use("/views", express.static('views'));
 app.get('/', function(request, response) {
     console.log("request against " + request.url);
     //response.sendFile(__dirname + '/views/quickstart.html');
-    response.sendFile(__dirname + '/views/calenderEvents.html');
+    response.sendFile(__dirname + '/index.html');
 });
 
 console.log('server up');

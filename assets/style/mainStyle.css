@@ -1,0 +1,18 @@
+.mainPageHeader {
+
+    font-size: 30px !important;
+    text-align: center !important;
+}
+.mainPagenNvigation{
+    text-align: center;
+}
+.mainpagemain {
+    background-color: #4caf50
+}
+.mainpagefooter {
+    text-align: center !important;
+}
+.mainPageEventData p {
+    font-weight: bold;
+    color:white !important;
+}
