@@ -3,6 +3,5 @@
 package-lock.json
 node_modules
 client_id.json
-client_secret.json
 bower.json
 bower_components
