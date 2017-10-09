@@ -1,16 +1,3 @@
-.mainPageHeader {
-
-    color: white !important;
-    font-size: 30px !important;
-    text-align: center !important
-
-}
-.mainpagemain {
-    background-color: #4caf50
-}
-.mainpagefooter {
-    text-align: center !important;
-}
 .indexUiClock {
     padding-top: 10px;
     margin-left:1%;
@@ -23,16 +10,52 @@
     text-align: end !important;
 }
 
+#vertical-container {
+    height: 400px;
+    width: 100%;
+    max-width: 300px !important;
+}
+
+.mainPageHeader {
+    color: white !important;
+    font-size: 30px !important;
+    text-align: center !important
+}
+.mainpagemain {
+    background-color: #4caf50
+}
+.mainpagefooter {
+    text-align: center !important;
+}
+
 .listdemoBasicUsage md-divider {
     margin-top: 10px;
     margin-bottom: 0;
 }
 .mainPageEventContent {
-    margin: 10px;
+    margin: 10px 10px 10px 10px;
+    max-width: 80%;
 }
 
 #mainPageEvent {
     border-top: solid;
     border-color: #a5d6a7;
 }
+.mainPageCurrentEvent {
+    margin: 10px 10px 10px 10px;
 
+    max-width: 50% !important;
+}
+.main{
+    margin: auto;
+    border: 2px solid;
+}
+
+body {
+    background-color: grey;
+}
+
+#mainPageCurrentEvent {
+    padding: 20%;
+    text-align: center;
+}

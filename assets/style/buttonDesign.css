@@ -17,3 +17,13 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+#extendButton{
+    visibility: hidden;
+}
+#deleteButton{
+    visibility: hidden;
+}
+#endEarlyButton {
+    visibility: hidden;
+}

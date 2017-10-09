@@ -10,7 +10,9 @@
     <link href="assets/style/mainStyle.css" rel="stylesheet">
     <link href="bower_components/angular-ui-clock/dist/angular-clock.css">
 </head>
-<body>
+<body ng-cloak>
+
+<div class="main" flex="65">
 
 <md-toolbar md-colors="{'background': 'default-accent'}" class="primary">
     <header class="mainPageHeader">RoomDisplay Prototype</header>
@@ -23,9 +25,9 @@
 </md-toolbar>
 
 
-<div flex style="height: -webkit-calc(100% - 76px)" id="main">
-    <div md-colors="{'background': 'default-primary-hue-1'}" ng-view flex layout-fill style="height: 100%" ng-view></div>
-</div>
+
+    <div md-colors="{'background': 'default-primary-hue-1'}" ng-view flex layout-fill style="height: 100%" ng-view ng-cloak></div>
+
 
 <div>
     <footer>
@@ -36,6 +38,7 @@
             <p class="indexDate">October 6, 2017</p>
         </md-toolbar>
     </footer>
+</div>
 </div>
 
 <script src="node_modules/angular/angular.min.js"></script>

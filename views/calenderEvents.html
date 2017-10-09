@@ -4,18 +4,34 @@
         <md-content md-colors="{'background': 'default-primary-hue-1'}">
             <div>
                 <div layout="row">
-                    <div flex="20">
-                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent'}">
+                    <div flex="30">
+
+                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent'}" >
                             <md-subheader md-colors="{'background': 'default-primary-hue-2'}" class="md-no-sticky">Booked meetings:
-                                <span><md-button class="md-primary md-raised" id="event-fetcher-button"  ng-click="getCalEvents()">Get Events</md-button></span>
+                                <span><md-button class="md-primary md-raised" id="event-fetcher-button"  ng-click="updateCalEvents()">Update Events</md-button></span>
                             </md-subheader>
-                            <md-list-item id="mainPageEvent" class="md-3-line" ng-repeat="event in fetchedEvents" ng-click="null">
+                            <md-virtual-repeat-container id="vertical-container">
+                            <md-list-item id="mainPageEvent" class="md-3-line" md-virtual-repeat="event in fetchedEvents" track by $index ng-click="getCurrentEvent($event, event)">
                             <div class="md-list-item-text" layout="column">
                                 <h3>Name:   {{event.summary}}</h3>
                                 <h4>Starts: {{event.start.startIso}}</h4>
                                 <h4>Ends:   {{event.end.endIso}}</h4>
                             </div>
                             </md-list-item>
+                            </md-virtual-repeat-container>
+                        </md-content>
+                    </div>
+                    <div class="mainPageCurrentEvent" flex="40" md-colors="{'background': 'default-accent'}">
+                        <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
+
+                                <h2>{{currentEvent.summary}}</h2>
+                                <h3>{{currentEvent.start.startIso}}</h3>
+                                <h3>{{currentEvent.end.endIso}}</h3>
+                            <span>
+                                <md-button id="extendButton" class="md-primary md-raised">Extend</md-button>
+                                <md-button id="endEarlyButton" class="md-primary md-raised">End Early</md-button>
+                                <md-button id="deleteButton" class="md-primary md-raised">Delete</md-button>
+                            </span>
                         </md-content>
                     </div>
                 </div>
