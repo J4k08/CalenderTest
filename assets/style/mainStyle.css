@@ -43,8 +43,7 @@
 }
 .mainPageCurrentEvent {
     margin: 10px 10px 10px 10px;
-
-    max-width: 50% !important;
+    max-width: 70% !important;
 }
 .main{
     margin: auto;
@@ -56,6 +55,32 @@ body {
 }
 
 #mainPageCurrentEvent {
-    padding: 20%;
+    padding: 15%;
     text-align: center;
+}
+
+
+md-dialog.md-default-theme, md-dialog {
+    background-color: rgb(102, 187, 106) !important;
+}
+
+md-dialog.md-default-theme, md-dialog {
+    color: white;
+}
+
+.md-block {
+    max-width: 200px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.mainPageNewEvent {
+    border-radius: 5px;
+    position: absolute;
+    border-style: solid;
+    border-color: white;
+}
+
+.md-block label {
+    opacity: 0.5;
 }

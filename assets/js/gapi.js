@@ -24,10 +24,41 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
                 'default': '500'
             });
     })
-    .controller('gapiController', function($scope, $document) {
+    .controller('gapiController', function($scope, $document, $mdDialog) {
 
-        $scope.fetchedEvents = [];
+        $scope.events = [];
         $scope.currentEvent = [];
+
+        $scope.eventTitle = "";
+        $scope.eventName = "";
+        $scope.eventStart = "";
+        $scope.eventEnd = "";
+
+
+        $scope.testEvent = {
+            'summary': 'testEvent - Jakob',
+            'creator': {
+                'displayName': "Jakob",
+                'email': "j.haglof56@gmail.com",
+                'self': true
+            },
+            'description': 'roomdisplay',
+            'start': {
+                'dateTime': '2017-10-10T09:00:00-07:00',
+                'timeZone': 'Europe/Amsterdam'
+            },
+            'end': {
+                'dateTime': '2017-10-10T10:00:00-07:00',
+                'timeZone': 'Europe/Amsterdam'
+            },
+            'reminders': {
+                'useDefault': false,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10}
+                ]
+            }
+        };
 
     "use strict";
     var apiKey= {
@@ -63,11 +94,10 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         console.log("updateSigninStatus");
         if (isSignedIn) {
 
-
             //enable get events knapp
             authorizeButton.css('visibility', 'hidden');
             signoutButton.css('visibility', 'visible');
-            listUpcomingEvents($scope.fetchedEvents);
+            listUpcomingEvents($scope.events);
         } else {
 
             authorizeButton.css('visibility', 'visible');
@@ -106,52 +136,34 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
                     }
                     $scope.$apply(function() {
                         eventsArray[i] = event;
-                        console.log("Events added to array")
+                        console.log(eventsArray[i])
                     });
                     })();
                 }
-                $scope.currentEvent = eventsArray[0];
-                $scope.displayButton(true);
-
             } else {
                 $scope.clearEventsList();
             }
-            $scope.$apply(function() {
-                $scope.convertDateTime(eventsArray);
-            });
         });
     }
 
-    $scope.convertDateTime = function(eventArray) {
-        for(var i = 0; i < eventArray.length; i++) {
-
-            var startDate = eventArray[i].start.dateTime;
-            var endDate = eventArray[i].end.dateTime;
-
-            var startIso = new Date(startDate).toISOString().substring(0,16);
-            var endIso = new Date(endDate).toISOString().substring(0,16);
-
-            eventArray[i].start.startIso = startIso;
-            eventArray[i].end.endIso = endIso;
-        }
-    };
     $scope.updateCalEvents = function() {
 
-        listUpcomingEvents($scope.fetchedEvents);
+        listUpcomingEvents($scope.events);
     };
-
     $scope.getCurrentEvent = function($event, event) {
 
         $scope.currentEvent = event;
+        $scope.dash = " - ";
+        $scope.displayButton(true);
 
     };
     $scope.clearEventsList = function() {
 
-        $scope.fetchedEvents = [];
+        $scope.events = [];
+        $scope.dash = "";
         $scope.currentEvent = [];
         $scope.displayButton(false)
     };
-
     $scope.displayButton = function (bool) {
 
         if(bool) {
@@ -166,15 +178,71 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
             deleteButton.css('visibility', 'hidden');
             endEarlyButton.css('visibility', 'hidden');
             extendButton.css('visibility', 'hidden');
-
         }
-    }
+    };
+    setInterval(function() {
 
+        listUpcomingEvents($scope.events);
+
+    }, 10000);
+
+    $scope.createEvent = function(event) {
+
+        var request = gapi.client.calendar.events.insert({
+            'calendarId': 'primary',
+            'resource': event
+        });
+
+        request.execute(function(event) {
+            console.log("testEvent: " + event);
+            listUpcomingEvents($scope.events);
+        });
+    };
+
+    $scope.showPrompt = function(ev) {
+
+        var confirm = $mdDialog.confirm()
+            .title('Are you sure you want to remove meet?')
+            .textContent('This will permanently remove it')
+            .targetEvent(ev)
+            .ok('Remove this muddah')
+            .cancel('Keep meeting');
+
+        $mdDialog.show(confirm).then(function() {
+                $scope.status = 'Meeting removed!';
+                $scope.deleteEvent($scope.currentEvent);
+        }, function() {
+            $scope.status = 'Meeting still active!'
+        });
+
+        };
+
+
+    $scope.deleteEvent = function(event) {
+
+        var request = gapi.client.calendar.events.delete({
+            'calendarId': 'primary',
+            'eventId': event.id
+        });
+        request.execute(function() {
+            console.log("createEvent request.execute");
+            $scope.$apply(function() {
+                $scope.currentEvent = [];
+                $scope.dash = " ";
+                $scope.displayButton(false);
+                $scope.updateCalEvents();
+            });
+        });
+    }
 });
     /*
      1: Skriv om gapi.js till angular                           [ Check ]
      2: Skapa node server - klar                                [ Check ]
      3: Kör googleApi när en homepage visas,                    [ Check ]
-     4: Skapa timer som hämtar hem från googleApi varje minut,
+     4: Hämta event                                             [ Check ]
      5: Skapa en enklare frontend och visa events               [ Check ]
+     7: Skapa timer som hämtar hem från googleApi               [ Check ]
+     6: Ta bort event
+     7: Uppdatera event
+     8: Lägg till input field för custom event
      */
