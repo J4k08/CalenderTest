@@ -9,6 +9,7 @@
     <link href="assets/style/buttonDesign.css" rel="stylesheet">
     <link href="assets/style/mainStyle.css" rel="stylesheet">
     <link href="bower_components/angular-ui-clock/dist/angular-clock.css">
+    <link href="node_modules/angular-moment-picker/dist/angular-moment-picker.min.css" rel="stylesheet">
 </head>
 <body ng-cloak>
 
@@ -23,12 +24,7 @@
         </span>
     </div>
 </md-toolbar>
-
-
-
-    <div md-colors="{'background': 'default-primary-hue-1'}" ng-view flex layout-fill style="height: 100%" ng-view ng-cloak></div>
-
-
+    <div md-colors="{'background': 'default-primary-hue-1'}" flex layout-fill style="height: 100%" ng-view ng-cloak></div>
 <div>
     <footer>
         <md-toolbar class="md-primary" md-colors="{'background': 'default-primary-hue-2'}">
@@ -49,6 +45,10 @@
 <script src="node_modules/angular-route/angular-route.min.js"></script>
 <script src="node_modules/angular-messages/angular-messages.min.js"></script>
 <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="node_modules/moment/moment.js"></script>
+<script src="node_modules/moment/min/moment-with-locales.js"></script>
+<script src="node_modules/angular-moment-picker/dist/angular-moment-picker.min.js"></script>
+
 <script async defer src="https://apis.google.com/js/api.js"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 <script src="/assets/js/gapi.js"></script>

@@ -41,7 +41,7 @@
     border-top: solid;
     border-color: #a5d6a7;
 }
-.mainPageCurrentEvent {
+.mainPageEvent {
     margin: 10px 10px 10px 10px;
     max-width: 70% !important;
 }
@@ -59,7 +59,6 @@ body {
     text-align: center;
 }
 
-
 md-dialog.md-default-theme, md-dialog {
     background-color: rgb(102, 187, 106) !important;
 }
@@ -75,12 +74,63 @@ md-dialog.md-default-theme, md-dialog {
 }
 
 .mainPageNewEvent {
+    background-color: #43A047;
     border-radius: 5px;
-    position: absolute;
+    position: relative;
     border-style: solid;
-    border-color: white;
+    border-color: #8ac58c;
 }
 
 .md-block label {
     opacity: 0.5;
+}
+
+#time-slider {
+    padding: 0 0 0 10px;
+    max-width: 400px;
+}
+md-slider-container > *:last-child:not(md-slider) {
+
+    max-width: 100px !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -webkit-transition-property: color, max-width;
+    transition-property: color, max-width;
+}
+md-slider-container md-input-container input[type="number"] {
+    text-align: start;
+    padding: 0;
+    color: white;
+}
+md-slider.md-default-theme .md-thumb:after, md-slider .md-thumb:after {
+    background-color: rgb(250,250,250);
+    border-color: rgba(0,0,0,0.38)
+}
+
+.rzslider .rz-bubble.rz-limit {
+    visibility: hidden !important;
+}
+.rzslider {
+    width: 42% !important;
+    padding: 0 10px 0 10px !important;
+}
+
+.rzslider .rz-bubble {
+    color: white !important;
+}
+
+.rzslider .rz-bar {
+    background: #39893d;
+}
+
+.rzslider .rz-selection {
+
+    background: #1e4c20 !important;
+}
+
+.rzslider .rz-pointer {
+    background-color: rgba(214, 222, 224, 0.42) !important;
+}
+
+.moment-picker-input {
+    padding: 5px;
 }
