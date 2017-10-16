@@ -134,3 +134,8 @@ md-slider.md-default-theme .md-thumb:after, md-slider .md-thumb:after {
 .moment-picker-input {
     padding: 5px;
 }
+
+md-toast.md-center {
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+}

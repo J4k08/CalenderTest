@@ -30,7 +30,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         });
     }])
 
-    .controller('gapiController', function($scope, $document, $mdDialog, $timeout) {
+    .controller('gapiController', function($scope, $document, $mdDialog, $timeout, $mdToast) {
 
     "use strict";
     var apiKey= {
@@ -38,7 +38,11 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         clientId: "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com",
         scope: "https://www.googleapis.com/auth/calendar"
     };
+        $scope.moment = {
 
+            start:"",
+            end:""
+        };
         $scope.events = [];
         $scope.currentEvent = [];
 
@@ -185,44 +189,63 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         $scope.displayEvent(false);
         $scope.displayButton(false);
 
-        var dates = [$scope.momentStart, $scope.momentEnd];
-        var isoDates = $scope.convertToIso(dates);
+        if($scope.moment.start === "" || $scope.moment.end === "" || $scope.moment.start == null || $scope.moment.end == null) {
+            showToast();
+        } else {
 
-        $scope.newEvent = {
-            'summary': $scope.eventTitle  + " - " + $scope.eventName,
-            'creator': {
-                'displayName': "Jakob",
-                'email': "j.haglof56@gmail.com",
-                'self': true
-            },
-            'description': 'roomdisplay',
-            'start': {
-                'dateTime': isoDates[0],
-                'timeZone': 'Europe/Amsterdam'
-            },
-            'end': {
-                'dateTime': isoDates[1],
-                'timeZone': 'Europe/Amsterdam'
-            },
-            'reminders': {
-                'useDefault': false,
-                'overrides': [
-                    {'method': 'email', 'minutes': 24 * 60},
-                    {'method': 'popup', 'minutes': 10}
-                ]
+            if($scope.event.title == null || $scope.event.title === "") {
+                $scope.event.title = "Quickbook"
             }
+            if($scope.event.name == null || $scope.event.name === "") {
+                $scope.event.name = "Unknown"
+            }
+
+            var dates = [$scope.moment.start, $scope.moment.end];
+            var isoDates = $scope.convertToIso(dates);
+
+            $scope.newEvent = {
+                'summary': $scope.event.title + " - " + $scope.event.name,
+                'creator': {
+                    'displayName': "Jakob",
+                    'email': "j.haglof56@gmail.com",
+                    'self': true
+                },
+                'description': 'roomdisplay',
+                'start': {
+                    'dateTime': isoDates[0],
+                    'timeZone': 'Europe/Amsterdam'
+                },
+                'end': {
+                    'dateTime': isoDates[1],
+                    'timeZone': 'Europe/Amsterdam'
+                },
+                'reminders': {
+                    'useDefault': false,
+                    'overrides': [
+                        {'method': 'email', 'minutes': 24 * 60},
+                        {'method': 'popup', 'minutes': 10}
+                    ]
+                }
+            };
+
+            var request = gapi.client.calendar.events.insert({
+                'calendarId': 'primary',
+                'resource': $scope.newEvent
+            });
+
+            request.execute(function (event) {
+                listUpcomingEvents($scope.events);
+            });
+        }
+
+        $scope.event = {
+            name: "",
+            title: ""
         };
-
-        var request = gapi.client.calendar.events.insert({
-            'calendarId': 'primary',
-            'resource': $scope.newEvent
-        });
-
-        request.execute(function(event) {
-            listUpcomingEvents($scope.events);
-        });
-        $scope.eventName = "";
-        $scope.eventTitle = "";
+        $scope.moment = {
+            start:"",
+            end: ""
+        }
     };
 
     //displays event if true. If false hides
@@ -272,6 +295,15 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         });
         $scope.updateCalEvents();
     };
+
+    function showToast() {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('Please set Start and End time')
+                .position('top center')
+                .hideDelay(3000)
+        );
+    }
 
     //Convert Date to isoObject
     $scope.convertToIso = function(array) {

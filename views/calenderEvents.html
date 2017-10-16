@@ -53,16 +53,16 @@
                                 <div layout-gt-xs="row">
                                     <md-input-container class="md-block" flex-gt-sm>
                                         <label style="color: #FFFFFF">Meeting Title</label>
-                                        <input style="color: #FFFFFF" ng-model="eventTitle">
+                                        <input style="color: #FFFFFF" ng-model="event.title">
                                     </md-input-container>
 
                                     <md-input-container class="md-block" flex-gt-sm>
                                         <label style="color: #FFFFFF">Your name</label>
-                                        <input style="color: #FFFFFF" ng-model="eventName">
+                                        <input style="color: #FFFFFF" ng-model="event.name">
                                     </md-input-container>
                                 </div>
                                 <div>
-                                    <span class="mainPageEventStart" moment-picker="momentStart"
+                                    <span class="mainPageEventStart" moment-picker="moment.start"
                                           ng-model="startTime"
                                           locale="sv"
                                           format="LT"
@@ -70,10 +70,10 @@
                                           min-date="'06:00'"
                                           max-date="'22:00'"
                                           today="true">
-                                        {{ momentStart || 'Start time'}}
+                                        {{ moment.start || 'Start time'}}
                                     </span>
 
-                                    <span id="mainPageEventEnd" moment-picker="momentEnd"
+                                    <span id="mainPageEventEnd" moment-picker="moment.end"
                                           ng-model="endTime"
                                           locale="sv"
                                           format="LT"
@@ -81,7 +81,7 @@
                                           min-date="'06:00'"
                                           max-date="'22:00'"
                                           today="true">
-                                        {{ momentEnd || 'End time'}}
+                                        {{ moment.end || 'End time'}}
                                     </span>
                                     <span>
                                     <md-button class="md-primary md-raised" id="mainPageEventCreate"
