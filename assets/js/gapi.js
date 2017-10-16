@@ -2,7 +2,7 @@
  * Created by jakobhaglof on 2017-10-02.
  */
 
-angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
+angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
 
     .config(function($routeProvider) {
 
@@ -16,49 +16,21 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
 
         $mdThemingProvider.theme('default')
             .primaryPalette('green', {
-                'default': '400',
-                'hue-1': '200',
-                'hue-2': '600'
+                'default': '700',
+                'hue-1': '400',
+                'hue-2': '800'
             })
             .accentPalette('green', {
-                'default': '500'
+                'default': '600'
             });
     })
-    .controller('gapiController', function($scope, $document, $mdDialog) {
+    .config(['momentPickerProvider', function(momentPickerProvider) {
+        momentPickerProvider.options({
+            minutesStep: 15
+        });
+    }])
 
-        $scope.events = [];
-        $scope.currentEvent = [];
-
-        $scope.eventTitle = "";
-        $scope.eventName = "";
-        $scope.eventStart = "";
-        $scope.eventEnd = "";
-
-
-        $scope.testEvent = {
-            'summary': 'testEvent - Jakob',
-            'creator': {
-                'displayName': "Jakob",
-                'email': "j.haglof56@gmail.com",
-                'self': true
-            },
-            'description': 'roomdisplay',
-            'start': {
-                'dateTime': '2017-10-10T09:00:00-07:00',
-                'timeZone': 'Europe/Amsterdam'
-            },
-            'end': {
-                'dateTime': '2017-10-10T10:00:00-07:00',
-                'timeZone': 'Europe/Amsterdam'
-            },
-            'reminders': {
-                'useDefault': false,
-                'overrides': [
-                    {'method': 'email', 'minutes': 24 * 60},
-                    {'method': 'popup', 'minutes': 10}
-                ]
-            }
-        };
+    .controller('gapiController', function($scope, $document, $mdDialog, $timeout) {
 
     "use strict";
     var apiKey= {
@@ -66,23 +38,27 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         clientId: "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com",
         scope: "https://www.googleapis.com/auth/calendar"
     };
-    //var discovery_Docs = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-    //var client_Id = "725921814233-a7hb0cpvrb5rkiicubsead57322je7dc.apps.googleusercontent.com";
-    //var scopes = "https://  www.googleapis.com/auth/calender.readonly";
-    console.log($document);
-    var authorizeButton = angular.element(document.querySelector("#authorize-button"));
-    var signoutButton = angular.element(document.querySelector("#signout-button"));
-    var extendButton = angular.element(document.querySelector("#extendButton"));
-    var endEarlyButton = angular.element(document.querySelector("#endEarlyButton"));
-    var deleteButton = angular.element(document.querySelector("#deleteButton"));
 
-    console.log("auth");
+        $scope.events = [];
+        $scope.currentEvent = [];
+
+        //buttons
+        var authorizeButton = angular.element(document.querySelector("#authorize-button"));
+        var signoutButton = angular.element(document.querySelector("#signout-button"));
+        var extendButton = angular.element(document.querySelector("#extendButton"));
+        var endEarlyButton = angular.element(document.querySelector("#endEarlyButton"));
+        var deleteButton = angular.element(document.querySelector("#deleteButton"));
+
+        //fields
+        var newEventField = angular.element(document.querySelector("#newEvent"));
+        var currentEventField = angular.element(document.querySelector("#mainPageCurrentEvent"));
+
+
     gapi.load('client:auth2', initClient);
 
+    //Initiates gapi client, checks if api-key is valid.
     function initClient() {
-        console.log("init");
         gapi.client.init(apiKey).then(function() {
-            console.log("init.then");
             gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
             updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
             authorizeButton.on('click', handleAuthClick);
@@ -90,11 +66,11 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         });
     }
 
+    //If signed in on google, auth-buttons are visible, else hidden
     function updateSignInStatus(isSignedIn) {
-        console.log("updateSigninStatus");
+
         if (isSignedIn) {
 
-            //enable get events knapp
             authorizeButton.css('visibility', 'hidden');
             signoutButton.css('visibility', 'visible');
             listUpcomingEvents($scope.events);
@@ -105,16 +81,27 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         }
     }
 
+    //Click function for signing in
     function handleAuthClick(event) {
         gapi.auth2.getAuthInstance().signIn();
-        console.log("handleAuthClick");
     }
 
+    //Click function for signing out
     function handleSignoutClick(event) {
-        console.log("Signout");
         gapi.auth2.getAuthInstance().signOut();
     }
 
+    //Removes currentEvent from event-array
+    function removeById(arr, current) {
+
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i].id === current.id) {
+                arr.splice(i,1)
+            }
+        }
+    }
+
+    //Fetches events from google calender and adds them to event-array
     function listUpcomingEvents(eventsArray) {
         gapi.client.calendar.events.list({
             'calendarId': 'primary',
@@ -136,7 +123,6 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
                     }
                     $scope.$apply(function() {
                         eventsArray[i] = event;
-                        console.log(eventsArray[i])
                     });
                     })();
                 }
@@ -146,17 +132,23 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         });
     }
 
+    //Updates calenderArray, looks for changes
     $scope.updateCalEvents = function() {
 
         listUpcomingEvents($scope.events);
     };
+
+    //sets the clicked event to currentEvent
     $scope.getCurrentEvent = function($event, event) {
 
+        $scope.displayEvent(true);
         $scope.currentEvent = event;
         $scope.dash = " - ";
         $scope.displayButton(true);
 
     };
+
+    //Clears event field, hides buttons
     $scope.clearEventsList = function() {
 
         $scope.events = [];
@@ -164,41 +156,89 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         $scope.currentEvent = [];
         $scope.displayButton(false)
     };
+
+    //displays buttons if bool is true, hides if false
     $scope.displayButton = function (bool) {
 
         if(bool) {
 
-            console.log("true");
             deleteButton.css('visibility', 'visible');
             endEarlyButton.css('visibility', 'visible');
             extendButton.css('visibility', 'visible');
         } else {
 
-            console.log("false");
             deleteButton.css('visibility', 'hidden');
             endEarlyButton.css('visibility', 'hidden');
             extendButton.css('visibility', 'hidden');
         }
     };
+
+    //Checks for changes every 10th second
     setInterval(function() {
 
         listUpcomingEvents($scope.events);
 
     }, 10000);
 
-    $scope.createEvent = function(event) {
+    //Creates new event
+    $scope.createEvent = function() {
+
+        $scope.displayEvent(false);
+        $scope.displayButton(false);
+
+        var dates = [$scope.momentStart, $scope.momentEnd];
+        var isoDates = $scope.convertToIso(dates);
+
+        $scope.newEvent = {
+            'summary': $scope.eventTitle  + " - " + $scope.eventName,
+            'creator': {
+                'displayName': "Jakob",
+                'email': "j.haglof56@gmail.com",
+                'self': true
+            },
+            'description': 'roomdisplay',
+            'start': {
+                'dateTime': isoDates[0],
+                'timeZone': 'Europe/Amsterdam'
+            },
+            'end': {
+                'dateTime': isoDates[1],
+                'timeZone': 'Europe/Amsterdam'
+            },
+            'reminders': {
+                'useDefault': false,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10}
+                ]
+            }
+        };
 
         var request = gapi.client.calendar.events.insert({
             'calendarId': 'primary',
-            'resource': event
+            'resource': $scope.newEvent
         });
 
         request.execute(function(event) {
-            console.log("testEvent: " + event);
             listUpcomingEvents($scope.events);
         });
+        $scope.eventName = "";
+        $scope.eventTitle = "";
     };
 
+    //displays event if true. If false hides
+    $scope.displayEvent = function(bool) {
+
+        if(bool) {
+            currentEventField.css('display', 'block');
+            newEventField.css('display', 'none');
+        } else {
+            currentEventField.css('display', 'none');
+            newEventField.css('display', 'block');
+        }
+    };
+
+    //click-function, displays prompt message
     $scope.showPrompt = function(ev) {
 
         var confirm = $mdDialog.confirm()
@@ -214,10 +254,9 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
         }, function() {
             $scope.status = 'Meeting still active!'
         });
+     };
 
-        };
-
-
+    //Deletes currentEvent from google Calender
     $scope.deleteEvent = function(event) {
 
         var request = gapi.client.calendar.events.delete({
@@ -225,15 +264,36 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
             'eventId': event.id
         });
         request.execute(function() {
-            console.log("createEvent request.execute");
             $scope.$apply(function() {
+                removeById($scope.events, $scope.currentEvent);
                 $scope.currentEvent = [];
                 $scope.dash = " ";
                 $scope.displayButton(false);
-                $scope.updateCalEvents();
             });
         });
-    }
+        $scope.updateCalEvents();
+    };
+
+    //Convert Date to isoObject
+    $scope.convertToIso = function(array) {
+
+        var today= new Date();
+
+        var startHours = array[0].substring(0,2);
+        var startMinutes = array[0].substring(3,5);
+        var endhours = array[1].substring(0,2);
+        var endMinutes = array[1].substring(3,5);
+
+        var date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), startHours, startMinutes, 0);
+        array[0] = date.toISOString();
+
+        date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), endhours, endMinutes, 0);
+        array[1] = date;
+
+        return array;
+    };
+
+    $scope.displayEvent(true);
 });
     /*
      1: Skriv om gapi.js till angular                           [ Check ]

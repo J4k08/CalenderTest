@@ -5,62 +5,90 @@
                 <div layout="row">
                     <div flex="30">
 
-                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent'}" >
-                            <md-subheader md-colors="{'background': 'default-primary-hue-2'}" class="md-no-sticky" style="text-align: center">
-
-                                    <md-button class="md-primary md-raised" id="event-fetcher-button"  ng-click="updateCalEvents()">Update Events</md-button>
-
+                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent'}">
+                            <md-subheader md-colors="{'background': 'default-primary-hue-2'}" class="md-no-sticky"
+                                          style="text-align: center">
+                                <md-button class="md-primary md-raised" id="event-fetcher-button"
+                                           ng-click="updateCalEvents()">Update Events
+                                </md-button>
                             </md-subheader>
                             <md-virtual-repeat-container id="vertical-container">
-                            <md-list-item id="mainPageEvent" class="md-3-line" md-virtual-repeat="event in events" track by $index ng-click="getCurrentEvent($event, event)">
-                            <div class="md-list-item-text" layout="column">
-                                <h3>Name:   {{event.summary}}</h3>
-                                <h4>Starts: {{event.start.dateTime | date: "hh.mm" : currentEvent.start.timeZone}}</h4>
-                                <h4>Ends:   {{event.end.dateTime | date: 'hh.mm' : currentEvent.start.timeZone}}</h4>
-                                <h4>Day:    {{event.start.dateTime | date: 'EEEE' : currentEvent.start.timeZone}}</h4>
-                            </div>
-                            </md-list-item>
+                                <md-list-item id="mainPageEvent" class="md-3-line" md-virtual-repeat="event in events"
+                                              track by $index ng-click="getCurrentEvent($event, event)">
+                                    <div class="md-list-item-text" layout="column">
+                                        <h3>Name: {{event.summary}}</h3>
+                                        <h4>Starts: {{event.start.dateTime | date: "hh.mm" :
+                                            currentEvent.start.timeZone}}</h4>
+                                        <h4>Ends: {{event.end.dateTime | date: 'hh.mm' :
+                                            currentEvent.start.timeZone}}</h4>
+                                        <h4>Day: {{event.start.dateTime | date: 'EEEE' :
+                                            currentEvent.start.timeZone}}</h4>
+                                    </div>
+                                </md-list-item>
                             </md-virtual-repeat-container>
-                            <md-button class="md-primary md-raised" id="addCalenderEvent" ng-click="createEvent(testEvent)">New Event</md-button>
+                            <md-button class="md-primary md-raised" id="addCalenderEvent"
+                                       ng-click="displayEvent(false)">New Event
+                            </md-button>
                         </md-content>
                     </div>
 
+                    <div class="mainPageEvent" flex="40" md-colors="{'background': 'default-accent'}">
+                        <form class="mainPageNewEvent" md-colors="{'background': 'default-primary-hue-2'}">
 
-                    <div class="mainPageCurrentEvent" flex="40" md-colors="{'background': 'default-accent'}">
-                        <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
+                            <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
 
-                            <form class="mainPageNewEvent">
-                            <div layout-gt-xs="row">
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <label style="color: #FFFFFF">Meeting Title</label>
-                                    <input style="color: #FFFFFF" ng-model="eventTitle">
-                                </md-input-container>
-
-                                <md-input-container class="md-block">
-                                    <label style="color: #FFFFFF">Day</label>
-                                <md-datepicker ng-model="eventStart"></md-datepicker>
-                                </md-input-container>
-                            </div>
-
-                            <div layout-gt-xs="row">
-                                 <md-input-container class="md-block" flex-gt-sm>
-                                    <label style="color: #FFFFFF">Your name</label>
-                                    <input style="color: #FFFFFF" ng-model="eventName">
-                                </md-input-container>
-
-                            </div>
-                            </form>
                                 <h2>{{currentEvent.summary}}</h2>
                                 <h3>{{currentEvent.start.dateTime | date: 'hh.mm' :currentEvent.start.timeZone}}
                                     {{dash}}
                                     {{currentEvent.end.dateTime | date: 'hh.mm' :currentEvent.start.timeZone}}</h3>
                                 <h3>{{currentEvent.start.dateTime | date: 'EEEE' :currentEvent.start.timeZone}}</h3>
-                            <span>
+                                <span>
                                 <md-button id="extendButton" class="md-primary md-raised">Extend</md-button>
                                 <md-button id="endEarlyButton" class="md-primary md-raised">End Early</md-button>
                                 <md-button id="deleteButton" class="md-primary md-raised" ng-click="showPrompt($event)">Delete</md-button>
                             </span>
-                        </md-content>
+                            </md-content>
+
+                            <div id="newEvent" layout="column">
+                                <div layout-gt-xs="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label style="color: #FFFFFF">Meeting Title</label>
+                                        <input style="color: #FFFFFF" ng-model="eventTitle">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label style="color: #FFFFFF">Your name</label>
+                                        <input style="color: #FFFFFF" ng-model="eventName">
+                                    </md-input-container>
+                                </div>
+                                <div>
+                                    <span class="mainPageEventStart" moment-picker="momentStart"
+                                          ng-model="startTime"
+                                          locale="sv"
+                                          format="LT"
+                                          min-view="hour"
+                                          min-date="'06:00'"
+                                          max-date="'22:00'"
+                                          today="true">
+                                        {{ momentStart || 'Start time'}}
+                                    </span>
+
+                                    <span id="mainPageEventEnd" moment-picker="momentEnd"
+                                          ng-model="endTime"
+                                          locale="sv"
+                                          format="LT"
+                                          min-view="hour"
+                                          min-date="'06:00'"
+                                          max-date="'22:00'"
+                                          today="true">
+                                        {{ momentEnd || 'End time'}}
+                                    </span>
+                                    <span>
+                                    <md-button class="md-primary md-raised" id="mainPageEventCreate"
+                                               ng-click="createEvent()">Create</md-button>
+                                    </span>
+                                </div>
+                        </form>
                     </div>
                 </div>
             </div>
