@@ -242,7 +242,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock'])
      4: Hämta event                                             [ Check ]
      5: Skapa en enklare frontend och visa events               [ Check ]
      7: Skapa timer som hämtar hem från googleApi               [ Check ]
-     6: Ta bort event
+     6: Ta bort event                                           [ Check ]
      7: Uppdatera event
-     8: Lägg till input field för custom event
+     8: Lägg till input field för custom event                  [ Check ]
      */
