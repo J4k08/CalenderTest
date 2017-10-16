@@ -54,6 +54,10 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         var currentEventField = angular.element(document.querySelector("#mainPageCurrentEvent"));
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     gapi.load('client:auth2', initClient);
 
     //Initiates gapi client, checks if api-key is valid.
@@ -173,14 +177,20 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         }
     };
 
+<<<<<<< HEAD
     //Checks for changes every 10th second
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     setInterval(function() {
 
         listUpcomingEvents($scope.events);
 
     }, 10000);
 
+<<<<<<< HEAD
     //Creates new event
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     $scope.createEvent = function() {
 
         $scope.displayEvent(false);
@@ -226,7 +236,10 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         $scope.eventTitle = "";
     };
 
+<<<<<<< HEAD
     //displays event if true. If false hides
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     $scope.displayEvent = function(bool) {
 
         if(bool) {
@@ -237,8 +250,11 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
             newEventField.css('display', 'block');
         }
     };
+<<<<<<< HEAD
 
     //click-function, displays prompt message
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     $scope.showPrompt = function(ev) {
 
         var confirm = $mdDialog.confirm()
@@ -255,8 +271,11 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
             $scope.status = 'Meeting still active!'
         });
      };
+<<<<<<< HEAD
 
     //Deletes currentEvent from google Calender
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     $scope.deleteEvent = function(event) {
 
         var request = gapi.client.calendar.events.delete({
@@ -273,8 +292,11 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         });
         $scope.updateCalEvents();
     };
+<<<<<<< HEAD
 
     //Convert Date to isoObject
+=======
+>>>>>>> 0100e08f670f6a34cd27912b77c5ebaffa91cefa
     $scope.convertToIso = function(array) {
 
         var today= new Date();
