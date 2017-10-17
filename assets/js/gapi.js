@@ -106,7 +106,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
     }
 
     //Fetches events from google calender and adds them to event-array
-    function listUpcomingEvents(eventsArray) {
+    function listUpcomingEvents() {
         gapi.client.calendar.events.list({
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
@@ -126,9 +126,12 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
                         when = event.start.date;
                     }
                     $scope.$apply(function() {
-                        eventsArray[i] = event;
+                        $scope.events[i] = event;
                     });
                     })();
+                }
+                if(!compareEvents(events, $scope.events)) {
+                    $scope.events = events;
                 }
             } else {
                 $scope.clearEventsList();
@@ -139,7 +142,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
     //Updates calenderArray, looks for changes
     $scope.updateCalEvents = function() {
 
-        listUpcomingEvents($scope.events);
+        listUpcomingEvents();
     };
 
     //sets the clicked event to currentEvent
@@ -179,7 +182,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
     //Checks for changes every 10th second
     setInterval(function() {
 
-        listUpcomingEvents($scope.events);
+        $scope.updateCalEvents();
 
     }, 10000);
 
@@ -190,7 +193,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         $scope.displayButton(false);
 
         if($scope.moment.start === "" || $scope.moment.end === "" || $scope.moment.start == null || $scope.moment.end == null) {
-            showToast();
+            showToast('Please set Start and End time');
         } else {
 
             if($scope.event.title == null || $scope.event.title === "") {
@@ -296,10 +299,10 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         $scope.updateCalEvents();
     };
 
-    function showToast() {
+    function showToast(message) {
         $mdToast.show(
             $mdToast.simple()
-                .textContent('Please set Start and End time')
+                .textContent(message)
                 .position('top center')
                 .hideDelay(3000)
         );
@@ -324,7 +327,51 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         return array;
     };
 
+    //on-click function, extends event with an hour
+    $scope.extendEvent = function() {
+
+           var date = new Date($scope.currentEvent.end.dateTime);
+           date.setHours(date.getHours() + 1);
+
+           $scope.currentEvent.end.dateTime = date.toISOString();
+
+           var request = gapi.client.calendar.events.patch({
+               'calendarId':'primary',
+               'eventId': $scope.currentEvent.id,
+               'resource': $scope.currentEvent
+           });
+
+           request.execute(function(event) {
+               console.log('Event extended: ' + event.htmlLink);
+
+               $scope.updateCalEvents();
+               showToast("Meeting extended an hour!")
+           })
+        };
+
     $scope.displayEvent(true);
+
+    //Compares two arrays and checks for changes in arrays, returns true if arrays are identical
+    function compareEvents(arrayX, arrayY) {
+
+        if(arrayX.length !== arrayY.length) {
+            return false;
+        }else {
+
+            for(var i = 0; i < arrayX.length; i++) {
+
+                for(var e = 0; e < arrayY.length; e++) {
+
+                    if(arrayX[i].id === arrayY[e].id) {
+                        e = arrayY.length;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 });
     /*
      1: Skriv om gapi.js till angular                           [ Check ]

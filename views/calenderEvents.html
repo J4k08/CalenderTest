@@ -17,9 +17,9 @@
                                               track by $index ng-click="getCurrentEvent($event, event)">
                                     <div class="md-list-item-text" layout="column">
                                         <h3>Name: {{event.summary}}</h3>
-                                        <h4>Starts: {{event.start.dateTime | date: "hh.mm" :
+                                        <h4>Starts: {{event.start.dateTime | date: "HH.mm" :
                                             currentEvent.start.timeZone}}</h4>
-                                        <h4>Ends: {{event.end.dateTime | date: 'hh.mm' :
+                                        <h4>Ends: {{event.end.dateTime | date: 'HH.mm' :
                                             currentEvent.start.timeZone}}</h4>
                                         <h4>Day: {{event.start.dateTime | date: 'EEEE' :
                                             currentEvent.start.timeZone}}</h4>
@@ -38,12 +38,12 @@
                             <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
 
                                 <h2>{{currentEvent.summary}}</h2>
-                                <h3>{{currentEvent.start.dateTime | date: 'hh.mm' :currentEvent.start.timeZone}}
+                                <h3>{{currentEvent.start.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}
                                     {{dash}}
-                                    {{currentEvent.end.dateTime | date: 'hh.mm' :currentEvent.start.timeZone}}</h3>
+                                    {{currentEvent.end.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}</h3>
                                 <h3>{{currentEvent.start.dateTime | date: 'EEEE' :currentEvent.start.timeZone}}</h3>
                                 <span>
-                                <md-button id="extendButton" class="md-primary md-raised">Extend</md-button>
+                                <md-button id="extendButton" class="md-primary md-raised" ng-click="extendEvent()">Extend</md-button>
                                 <md-button id="endEarlyButton" class="md-primary md-raised">End Early</md-button>
                                 <md-button id="deleteButton" class="md-primary md-raised" ng-click="showPrompt($event)">Delete</md-button>
                             </span>
