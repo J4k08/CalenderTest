@@ -57,7 +57,6 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         var newEventField = angular.element(document.querySelector("#newEvent"));
         var currentEventField = angular.element(document.querySelector("#mainPageCurrentEvent"));
 
-
     gapi.load('client:auth2', initClient);
 
     //Initiates gapi client, checks if api-key is valid.
@@ -160,7 +159,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         $scope.events = [];
         $scope.dash = "";
         $scope.currentEvent = [];
-        $scope.displayButton(false)
+        $scope.displayButton(false);
     };
 
     //displays buttons if bool is true, hides if false
@@ -194,52 +193,56 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
 
         if($scope.moment.start === "" || $scope.moment.end === "" || $scope.moment.start == null || $scope.moment.end == null) {
             showToast('Please set Start and End time');
+
+        } else if($scope.moment.end < $scope.moment.start) {
+
+            showToast("Meeting can't end before it even started");
         } else {
 
-            if($scope.event.title == null || $scope.event.title === "") {
-                $scope.event.title = "Quickbook"
-            }
-            if($scope.event.name == null || $scope.event.name === "") {
-                $scope.event.name = "Unknown"
-            }
-
-            var dates = [$scope.moment.start, $scope.moment.end];
-            var isoDates = $scope.convertToIso(dates);
-
-            $scope.newEvent = {
-                'summary': $scope.event.title + " - " + $scope.event.name,
-                'creator': {
-                    'displayName': "Jakob",
-                    'email': "j.haglof56@gmail.com",
-                    'self': true
-                },
-                'description': 'roomdisplay',
-                'start': {
-                    'dateTime': isoDates[0],
-                    'timeZone': 'Europe/Amsterdam'
-                },
-                'end': {
-                    'dateTime': isoDates[1],
-                    'timeZone': 'Europe/Amsterdam'
-                },
-                'reminders': {
-                    'useDefault': false,
-                    'overrides': [
-                        {'method': 'email', 'minutes': 24 * 60},
-                        {'method': 'popup', 'minutes': 10}
-                    ]
+                if($scope.event.title == null || $scope.event.title === "") {
+                    $scope.event.title = "Quickbook"
                 }
-            };
+                if($scope.event.name == null || $scope.event.name === "") {
+                    $scope.event.name = "Unknown"
+                }
 
-            var request = gapi.client.calendar.events.insert({
-                'calendarId': 'primary',
-                'resource': $scope.newEvent
-            });
+                var dates = [$scope.moment.start, $scope.moment.end];
+                var isoDates = convertToIso(dates);
 
-            request.execute(function (event) {
-                listUpcomingEvents($scope.events);
-            });
-        }
+                $scope.newEvent = {
+                    'summary': $scope.event.title + " - " + $scope.event.name,
+                    'creator': {
+                        'displayName': "Jakob",
+                        'email': "j.haglof56@gmail.com",
+                        'self': true
+                    },
+                    'description': 'Booked via Web app',
+                    'start': {
+                        'dateTime': isoDates[0],
+                        'timeZone': 'Europe/Amsterdam'
+                    },
+                    'end': {
+                        'dateTime': isoDates[1],
+                        'timeZone': 'Europe/Amsterdam'
+                    },
+                    'reminders': {
+                        'useDefault': false,
+                        'overrides': [
+                            {'method': 'email', 'minutes': 24 * 60},
+                            {'method': 'popup', 'minutes': 10}
+                        ]
+                    }
+                };
+
+                var request = gapi.client.calendar.events.insert({
+                    'calendarId': 'primary',
+                    'resource': $scope.newEvent
+                });
+
+                request.execute(function (event) {
+                    listUpcomingEvents($scope.events);
+                });
+            }
 
         $scope.event = {
             name: "",
@@ -267,10 +270,10 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
     $scope.showPrompt = function(ev) {
 
         var confirm = $mdDialog.confirm()
-            .title('Are you sure you want to remove meet?')
+            .title('Are you sure you want to remove this meet?')
             .textContent('This will permanently remove it')
             .targetEvent(ev)
-            .ok('Remove this muddah')
+            .ok('Remove meeting')
             .cancel('Keep meeting');
 
         $mdDialog.show(confirm).then(function() {
@@ -309,7 +312,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
     }
 
     //Convert Date to isoObject
-    $scope.convertToIso = function(array) {
+    function convertToIso(array) {
 
         var today= new Date();
 
@@ -325,7 +328,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         array[1] = date;
 
         return array;
-    };
+    }
 
     //on-click function, extends event with an hour
     $scope.extendEvent = function() {

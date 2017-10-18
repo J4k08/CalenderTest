@@ -16,12 +16,10 @@
                                 <md-list-item id="mainPageEvent" class="md-3-line" md-virtual-repeat="event in events"
                                               track by $index ng-click="getCurrentEvent($event, event)">
                                     <div class="md-list-item-text" layout="column">
-                                        <h3>Name: {{event.summary}}</h3>
+                                        <h3>Meeting: {{event.summary}}</h3>
                                         <h4>Starts: {{event.start.dateTime | date: "HH.mm" :
                                             currentEvent.start.timeZone}}</h4>
                                         <h4>Ends: {{event.end.dateTime | date: 'HH.mm' :
-                                            currentEvent.start.timeZone}}</h4>
-                                        <h4>Day: {{event.start.dateTime | date: 'EEEE' :
                                             currentEvent.start.timeZone}}</h4>
                                     </div>
                                 </md-list-item>
@@ -33,20 +31,21 @@
                     </div>
 
                     <div class="mainPageEvent" flex="40" md-colors="{'background': 'default-accent'}">
-                        <form class="mainPageNewEvent" md-colors="{'background': 'default-primary-hue-2'}">
+                        <form class="mainPageNewEvent"  md-colors="{'background': 'default-primary-hue-2'}">
 
                             <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
 
                                 <h2>{{currentEvent.summary}}</h2>
-                                <h3>{{currentEvent.start.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}
-                                    {{dash}}
+                                <h3>{{currentEvent.start.dateTime | date: 'EEEE' :currentEvent.start.timeZone}}
+                                {{currentEvent.start.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}
+                                    <span>{{dash}}</span>
                                     {{currentEvent.end.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}</h3>
-                                <h3>{{currentEvent.start.dateTime | date: 'EEEE' :currentEvent.start.timeZone}}</h3>
-                                <span>
+                                <h5>{{currentEvent.description}}</h5>
                                 <md-button id="extendButton" class="md-primary md-raised" ng-click="extendEvent()">Extend</md-button>
                                 <md-button id="endEarlyButton" class="md-primary md-raised">End Early</md-button>
                                 <md-button id="deleteButton" class="md-primary md-raised" ng-click="showPrompt($event)">Delete</md-button>
                             </span>
+
                             </md-content>
 
                             <div id="newEvent" layout="column">

@@ -16,6 +16,7 @@
 <div class="main" flex="75">
 
 <md-toolbar md-colors="{'background': 'default-primary-hue-2'}" class="primary">
+    <div class="indexRoomName">Room1</div>
     <header class="mainPageHeader">RoomDisplay Prototype</header>
     <div class="indexHeaderButtons">
         <span>
@@ -31,7 +32,10 @@
             <div class="indexUiClock">
             <ds-widget-clock data-show-digital digital-format="'HH:mm'"></ds-widget-clock>
             </div>
-            <p class="indexDate">October 6, 2017</p>
+            <div ng-controller="indexController">
+            <p class="indexDate">{{todaysDate  | date: 'mediumDate'}}</p>
+            </div>
+
         </md-toolbar>
     </footer>
 </div>
@@ -52,5 +56,6 @@
 <script async defer src="https://apis.google.com/js/api.js"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 <script src="/assets/js/gapi.js"></script>
+<script src="/assets/js/index.js"></script>
 </body>
 </html>
