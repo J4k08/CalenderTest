@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+.DS_Store
 package-lock.json
 node_modules
 client_id.json

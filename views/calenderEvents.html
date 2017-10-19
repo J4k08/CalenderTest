@@ -1,19 +1,17 @@
 <div ng-app="app">
     <div id=mainPageMain>
-        <md-content md-colors="{'background': 'default-primary'}">
+        <md-content md-colors="{'background': 'default-primary-hue-2-0.5'}">
             <div>
                 <div layout="row">
-                    <div flex="30">
-
-                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent'}">
-                            <md-subheader md-colors="{'background': 'default-primary-hue-2'}" class="md-no-sticky"
-                                          style="text-align: center">
-                                <md-button class="md-primary md-raised" id="event-fetcher-button"
-                                           ng-click="updateCalEvents()">Update Events
+                    <div flex="25">
+                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent-hue-1-0.50'}">
+                            <md-subheader md-colors="{'background': 'default-primary-hue-2-0.50'}" class="md-no-sticky"
+                                          style="text-align: start">
+                                <h2>Meetings</h2>
                                 </md-button>
                             </md-subheader>
                             <md-virtual-repeat-container id="vertical-container">
-                                <md-list-item id="mainPageEvent" class="md-3-line" md-virtual-repeat="event in events"
+                                <md-list-item id="mainPageComingEvents" class="md-3-line" md-virtual-repeat="event in events"
                                               track by $index ng-click="getCurrentEvent($event, event)">
                                     <div class="md-list-item-text" layout="column">
                                         <h3>Meeting: {{event.summary}}</h3>
@@ -29,22 +27,20 @@
                             </md-button>
                         </md-content>
                     </div>
+                    <div class="mainPageEvent" flex="55">
+                        <form class="mainPageNewEvent"  md-colors="{'background': 'default-primary-hue-2-0.50'}">
 
-                    <div class="mainPageEvent" flex="40" md-colors="{'background': 'default-accent'}">
-                        <form class="mainPageNewEvent"  md-colors="{'background': 'default-primary-hue-2'}">
-
-                            <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent'}">
+                            <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent-hue-1-0.50'}">
 
                                 <h2>{{currentEvent.summary}}</h2>
                                 <h3>{{currentEvent.start.dateTime | date: 'EEEE' :currentEvent.start.timeZone}}
-                                {{currentEvent.start.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}
+                                    {{currentEvent.start.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}
                                     <span>{{dash}}</span>
                                     {{currentEvent.end.dateTime | date: 'HH.mm' :currentEvent.start.timeZone}}</h3>
                                 <h5>{{currentEvent.description}}</h5>
                                 <md-button id="extendButton" class="md-primary md-raised" ng-click="extendEvent()">Extend</md-button>
                                 <md-button id="endEarlyButton" class="md-primary md-raised">End Early</md-button>
                                 <md-button id="deleteButton" class="md-primary md-raised" ng-click="showPrompt($event)">Delete</md-button>
-                            </span>
 
                             </md-content>
 
@@ -87,6 +83,7 @@
                                                ng-click="createEvent()">Create</md-button>
                                     </span>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>

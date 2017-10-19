@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "sourceSansPro";
+    src: url('../fonts/SourceSansPro-Regular.ttf')
+}
+@font-face {
+    font-family: "sourcesansProLight";
+    src: url('../fonts/SourceSansPro-Light.ttf')
+}
+
 .indexUiClock {
     padding-top: 10px;
     margin-left:1%;
@@ -21,9 +30,7 @@
     font-size: 30px !important;
     text-align: center !important
 }
-.mainpagemain {
-    background-color: #4caf50
-}
+
 .mainpagefooter {
     text-align: center !important;
 }
@@ -33,25 +40,29 @@
     margin-bottom: 0;
 }
 .mainPageEventContent {
-    margin: 10px 10px 10px 10px;
     max-width: 80%;
-}
-
-#mainPageEvent {
-    border-top: solid;
-    border-color: #a5d6a7;
+    margin-top: 10px;
 }
 .mainPageEvent {
-    margin: 10px 10px 10px 10px;
-    max-width: 70% !important;
+    margin-top: 10px;
+}
+
+#mainPageComingEvents {
+    border-top: solid;
 }
 .main{
-    margin: auto;
-    border: 2px solid;
+    background: url('../images/rd6bg_gray_land.jpg') no-repeat;
+    background-size: 100%;
+    position: relative;
+    border: 4px solid;
+    border-radius: 4px;
+    border-color: #575757;
+
 }
 
 body {
     background-color: grey;
+    font-family: sourceSansPro;
 }
 
 #mainPageCurrentEvent {
@@ -60,7 +71,8 @@ body {
 }
 
 md-dialog.md-default-theme, md-dialog {
-    background-color: rgb(102, 187, 106) !important;
+    background-color: rgb(102, 187, 106);
+    opacity: 0.5 !important;
 }
 
 md-dialog.md-default-theme, md-dialog {
@@ -77,12 +89,7 @@ md-dialog.md-default-theme, md-dialog {
     background-color: #43A047;
     border-radius: 5px;
     position: relative;
-    border-style: solid;
-    border-color: #8ac58c;
-}
 
-.md-block label {
-    opacity: 0.5;
 }
 
 #time-slider {
@@ -139,6 +146,24 @@ md-toast.md-center {
     left: 50%;
     transform: translate3d(-50%, 0, 0);
 }
-.indexRoomName {
-    padding: 0 0 0 10px;
+.indexHeaderLogo {
+    width: 50% !important;
+    height: 50% !important;
+}
+h2 {
+    color: white;
+}
+h3 {
+    color: white;
+}
+h5 {
+    color: white;
+}
+.indexHeader {
+    border-bottom: 4px solid;
+    border-color: #575757;
+}
+.indexFooter {
+    border-top: 4px solid;
+    border-color: #575757;
 }

@@ -15,20 +15,22 @@
 
 <div class="main" flex="75">
 
-<md-toolbar md-colors="{'background': 'default-primary-hue-2'}" class="primary">
-    <div class="indexRoomName">Room1</div>
-    <header class="mainPageHeader">RoomDisplay Prototype</header>
-    <div class="indexHeaderButtons">
-        <span>
+<md-toolbar md-colors="{'background': 'default-primary-hue-2-0.60'}" class="primary">
+
+    <div layout="row" class="indexHeader">
+        <img class="indexHeaderLogo" flex="15" src="assets/images/gogetlogo.png"/>
+        <h2 flex="70" class="mainPageHeader">RoomDisplay Prototype</h2>
+        <div flex="15">
             <md-button class="md-primary md-raised" id="authorize-button"  ng-click="handleAuthClick()">Authorize</md-button>
             <md-button class="md-primary md-raised" id="signout-button"  ng-click="handleSignoutClick()">Sign Out</md-button>
-        </span>
+        </div>
     </div>
+
 </md-toolbar>
-    <div md-colors="{'background': 'default-primary-hue-1'}" flex layout-fill style="height: 100%" ng-view ng-cloak></div>
+    <div class="indexNgView" md-colors="" flex layout-fill style="height: 100%" ng-view ng-cloak></div>
 <div>
-    <footer>
-        <md-toolbar class="md-primary" md-colors="{'background': 'default-primary-hue-2'}">
+    <footer class="indexFooter">
+        <md-toolbar class="md-primary" md-colors="{'background': 'default-primary-hue-2-0.60'}">
             <div class="indexUiClock">
             <ds-widget-clock data-show-digital digital-format="'HH:mm'"></ds-widget-clock>
             </div>

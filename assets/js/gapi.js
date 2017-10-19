@@ -21,7 +21,8 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
                 'hue-2': '800'
             })
             .accentPalette('green', {
-                'default': '600'
+                'default': '600',
+                'hue-1': '500'
             });
     })
     .config(['momentPickerProvider', function(momentPickerProvider) {
@@ -352,7 +353,8 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
            })
         };
 
-    $scope.displayEvent(true);
+        newEventField.css('display','none');
+        currentEventField.css('display', 'none');
 
     //Compares two arrays and checks for changes in arrays, returns true if arrays are identical
     function compareEvents(arrayX, arrayY) {
