@@ -2,7 +2,7 @@
  * Created by jakobhaglof on 2017-10-02.
  */
 
-angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
+var app = angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
 
     .config(function($routeProvider) {
 
@@ -10,7 +10,7 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
             .when("/", {
                 templateUrl: "views/calenderEvents.html",
                 controller: "gapiController"
-        });
+        })
     })
     .config(function($mdThemingProvider) {
 
@@ -40,7 +40,6 @@ angular.module('app', ['ngMaterial', 'ngRoute', 'ds.clock', 'moment-picker'])
         scope: "https://www.googleapis.com/auth/calendar"
     };
         $scope.moment = {
-
             start:"",
             end:""
         };

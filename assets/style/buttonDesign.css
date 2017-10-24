@@ -27,3 +27,9 @@
 #endEarlyButton {
     visibility: hidden;
 }
+#addCalenderEvent {
+    width: 20%;
+    height: 20%;
+    padding: 10px;
+    outline: none;
+}

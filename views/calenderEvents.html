@@ -1,33 +1,31 @@
 <div ng-app="app">
     <div id=mainPageMain>
         <md-content md-colors="{'background': 'default-primary-hue-2-0.5'}">
-            <div>
                 <div layout="row">
-                    <div flex="25">
-                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent-hue-1-0.50'}">
-                            <md-subheader md-colors="{'background': 'default-primary-hue-2-0.50'}" class="md-no-sticky"
+                    <div flex="30">
+                        <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent-hue-1-0.30'}">
+                            <md-subheader md-colors="{'background': 'default-primary-hue-2-0.30'}" class="md-no-sticky"
                                           style="text-align: start">
-                                <h2>Meetings</h2>
+                                <h2>Later today</h2>
                                 </md-button>
                             </md-subheader>
                             <md-virtual-repeat-container id="vertical-container">
                                 <md-list-item id="mainPageComingEvents" class="md-3-line" md-virtual-repeat="event in events"
                                               track by $index ng-click="getCurrentEvent($event, event)">
                                     <div class="md-list-item-text" layout="column">
-                                        <h3>Meeting: {{event.summary}}</h3>
-                                        <h4>Starts: {{event.start.dateTime | date: "HH.mm" :
+                                        <h3>{{event.summary}}</h3>
+                                        <h4>{{event.start.dateTime | date: "HH.mm" :
                                             currentEvent.start.timeZone}}</h4>
-                                        <h4>Ends: {{event.end.dateTime | date: 'HH.mm' :
+                                        <h4>{{event.end.dateTime | date: 'HH.mm' :
                                             currentEvent.start.timeZone}}</h4>
                                     </div>
                                 </md-list-item>
                             </md-virtual-repeat-container>
-                            <md-button class="md-primary md-raised" id="addCalenderEvent"
-                                       ng-click="displayEvent(false)">New Event
-                            </md-button>
+                            <img src="/assets/images/circle_plus_white.png" id="addCalenderEvent"
+                                 ng-click="displayEvent(false)">
                         </md-content>
                     </div>
-                    <div class="mainPageEvent" flex="55">
+                    <div class="mainPageEvent" flex="70">
                         <form class="mainPageNewEvent"  md-colors="{'background': 'default-primary-hue-2-0.50'}">
 
                             <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent-hue-1-0.50'}">
@@ -44,7 +42,7 @@
 
                             </md-content>
 
-                            <div id="newEvent" layout="column">
+                            <div id="newEvent">
                                 <div layout-gt-xs="row">
                                     <md-input-container class="md-block" flex-gt-sm>
                                         <label style="color: #FFFFFF">Meeting Title</label>
@@ -87,8 +85,6 @@
                         </form>
                     </div>
                 </div>
-            </div>
         </md-content>
     </div>
-
 </div>
