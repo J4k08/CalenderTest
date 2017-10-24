@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.jakobhaglof.customtabs",
+    "sha256_cert_fingerprints":
+    ["02:C4:83:F4:4A:B5:BA:2A:B3:C4:37:8C:92:A3:48:A6:CB:C5:14:F5:B3:8C:8B:C2:F8:4B:76:9E:1E:D1:2C:40"]
+  }
+}]
