@@ -1,13 +1,12 @@
 <div ng-app="app">
     <div id=mainPageMain>
         <md-content md-colors="{'background': 'default-primary-hue-2-0.5'}">
-                <div layout="row">
+                <div layout="row" >
                     <div flex="30">
                         <md-content class="mainPageEventContent" md-colors="{'background': 'default-accent-hue-1-0.30'}">
                             <md-subheader md-colors="{'background': 'default-primary-hue-2-0.30'}" class="md-no-sticky"
                                           style="text-align: start">
                                 <h2>Later today</h2>
-                                </md-button>
                             </md-subheader>
                             <md-virtual-repeat-container id="vertical-container">
                                 <md-list-item id="mainPageComingEvents" class="md-3-line" md-virtual-repeat="event in events"
@@ -25,7 +24,7 @@
                                  ng-click="displayEvent(false)">
                         </md-content>
                     </div>
-                    <div class="mainPageEvent" flex="70">
+                    <div class="mainPageEvent" flex="60">
                         <form class="mainPageNewEvent"  md-colors="{'background': 'default-primary-hue-2-0.50'}">
 
                             <md-content id="mainPageCurrentEvent" md-colors="{'background': 'default-accent-hue-1-0.50'}">

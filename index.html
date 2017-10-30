@@ -28,8 +28,8 @@
     </div>
 
 </md-toolbar>
-    <div class="indexNgView" md-colors="" flex layout-fill style="height: 100%" ng-view ng-cloak></div>
-<div>
+    <div class="indexNgView" flex layout-fill ng-view ng-cloak></div>
+
     <footer class="indexFooter">
         <md-toolbar class="md-primary" md-colors="{'background': 'default-primary-hue-2-0.60'}">
             <div class="indexUiClock">
@@ -38,8 +38,6 @@
             <div ng-controller="indexController">
             <p class="indexDate">{{todaysDate  | date: 'mediumDate'}}</p>
             </div>
-
-        </md-toolbar>
     </footer>
 </div>
 </div>
@@ -60,5 +58,6 @@
 <script src="https://apis.google.com/js/client.js"></script>
 <script src="assets/js/gapi.js"></script>
 <script src="assets/js/index.js"></script>
+
 </body>
 </html>

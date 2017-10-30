@@ -26,7 +26,7 @@ html {
     text-align: end !important;
 }
 #vertical-container {
-    height: 400px;
+    min-height: 325px;
     width: 100%;
 }
 
@@ -45,11 +45,10 @@ html {
     margin-bottom: 0;
 }
 .mainPageEventContent {
-    max-width: 60%;
     margin-top: 10px;
 }
 .mainPageEvent {
-    padding: 10px 10px 20px 10px;
+    padding: 10px 10px 10px 10px;
 }
 
 #mainPageComingEvents {
@@ -166,6 +165,9 @@ h5 {
     border-color: #575757;
 }
 .indexFooter {
+    position: absolute;
+    bottom:0;
+    width: 100%;
     border-top: 4px solid;
     border-color: #575757;
 }
